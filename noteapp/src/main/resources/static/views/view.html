@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Note App</title>
+    <script src="https://code.angularjs.org/1.4.9/angular.js"></script>
+    <script>
+        var app = angular.module('pageLoadApp', []);
+
+        app.controller('pageLoadAppCtrl', ['$scope', '$http', function($scope, $http) {
+            var url =  window.location.pathname.split('/');
+            var noteId = url[3];
+
+            $http({
+                method : 'GET',
+                url : 'http://localhost:8080/note/getNote/'+noteId
+            }).then(function successCallback(response) {
+                $scope.description = response.data.noteDescription;
+            }, function errorCallback(response) {
+                console.log(response.statusText);
+            });
+
+        }]);
+    </script>
+</head>
+
+<body ng-app="pageLoadApp" ng-controller="pageLoadAppCtrl" data-ng-init="init()">
+
+    <h1>Note App</h1>
+    <section>
+        <div>
+            {{description}}
+        </div>
+    </section>
+</div>
+</body>
+
+</html>
